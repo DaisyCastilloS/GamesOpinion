@@ -1,13 +1,7 @@
-<!-- src/App.vue -->
-
 <script>
-import GameList from '@/components/GameList.vue'
-
 export default {
   name: 'App',
-  components: {
-    GameList,
-  },
+  components: {},
 }
 </script>
 
