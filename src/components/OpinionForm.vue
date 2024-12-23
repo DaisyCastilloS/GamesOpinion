@@ -1,3 +1,4 @@
+<!-- OpinionForm.vue -->
 <template>
   <div class="opinion-form">
     <form @submit.prevent="submitOpinion">
@@ -14,9 +15,10 @@
           rows="4"
         ></textarea>
       </div>
-      <button type="submit">Agregar</button>
+      <button type="submit" class="btn-submit">Agregar</button>
     </form>
-    <div v-if="opinion">
+
+    <div v-if="opinion" class="opinion-display">
       <h3>Tu Opinión:</h3>
       <p>
         <strong>{{ opinion.name }}:</strong> {{ opinion.text }}
@@ -24,6 +26,7 @@
         <button @click="deleteOpinion" class="btn-delete">Eliminar</button>
       </p>
     </div>
+
     <div v-else>
       <p class="no-opinion">No existen opiniones para este juego.</p>
     </div>
@@ -60,7 +63,6 @@ export default {
       }
     },
     editOpinion() {
-      this.editing = true
       this.userName = this.opinion.name
       this.userOpinion = this.opinion.text
     },
@@ -73,80 +75,76 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+/* 📝 Formulario principal */
 .opinion-form {
-  max-width: 600px;
-  margin: 2rem auto;
   text-align: center;
+
+  form {
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: $secondary-color;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid $light-gray;
+    border-radius: 5px;
+  }
 }
 
-.no-opinion {
-  color: #f00;
-  background-color: #ffecec;
-  padding: 1rem;
-  border-radius: 5px;
+/* ✅ Botones con mixins */
+.btn-submit {
+  @include button-styles($primary-color, $green, color.scale($primary-color, $lightness: -10%));
 }
+
 .btn-edit {
-  padding: 0.5rem 1rem;
-  margin: 0.5rem;
-  background-color: #ffc107;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-edit:hover {
-  background-color: #e0a800;
+  @include button-styles($warning-color, $black, color.scale($warning-color, $lightness: -10%));
 }
 
 .btn-delete {
-  padding: 0.5rem 1rem;
-  margin: 0.5rem;
-  background-color: #dc3545; /* Rojo */
-  color: white;
-  border: none;
+  @include button-styles($danger-color, $green, color.scale($danger-color, $lightness: -10%));
+}
+
+/* 📝 Sin opiniones */
+.no-opinion {
+  color: $danger-color;
+  background-color: adjust-color($danger-color, $lightness: 40%);
+  padding: 1rem;
   border-radius: 5px;
-  cursor: pointer;
+  margin-top: 1rem;
 }
 
-.btn-delete:hover {
-  background-color: #c82333;
-}
+/* ✅ Opinión desplegada */
+.opinion-display {
+  margin-top: 2rem;
+  text-align: left;
+  background-color: $light-gray;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid $secondary-color;
 
-.btn-submit {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1rem;
+  }
 
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+  p {
+    margin: 0.5rem 0;
+  }
 }
 </style>

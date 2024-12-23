@@ -10,7 +10,7 @@
           <p><strong>Released:</strong> {{ game.released }}</p>
           <p><strong>Update:</strong> {{ game.updated }}</p>
           <div class="card-actions">
-            <button @click="goToOpinions(game.name)" class="btn">Opinar</button>
+            <button @click="goToOpinions(game.name)" class="btn-primary">Opinar</button>
             <button class="btn-favorite">❤️</button>
           </div>
         </div>
@@ -26,7 +26,7 @@ export default {
   name: 'GameList',
   data() {
     return {
-      games: [], // Lista de juegos
+      games: [],
     }
   },
   methods: {
@@ -38,7 +38,7 @@ export default {
             page_size: 10,
           },
         })
-        this.games = response.data.results // Asignar los juegos obtenidos
+        this.games = response.data.results
       } catch (error) {
         console.error('Error al obtener los juegos:', error)
       }
@@ -55,90 +55,50 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Contenedor principal */
+<style lang="scss" scoped>
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+/* ✅ Contenedor principal */
 .game-list {
   padding: 2rem;
-  font-family: Arial, sans-serif;
+  font-family: $font-family-base;
+  color: $primary-color;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: $primary-color;
+  }
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-/* Estilo de la cuadrícula */
+/* ✅ Cuadrícula de tarjetas */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  @include grid-layout(auto-fit, 300px, 2rem);
 }
 
-/* Tarjeta de juego */
+/* ✅ Tarjeta */
 .card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease-in-out;
+  @include game-card;
 }
 
-.card:hover {
-  transform: scale(1.02);
-}
-
-/* Imagen del juego */
+/* ✅ Imagen de la tarjeta */
 .game-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  @include responsive-image(200px);
 }
 
-/* Cuerpo de la tarjeta */
-.card-body {
-  padding: 1rem;
-  text-align: center;
-}
-
-.card-body h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-body p {
-  margin: 0.3rem 0;
-  color: #555;
-}
-
-/* Botones */
+/* ✅ Botones */
 .card-actions {
   margin-top: 1rem;
-  display: flex;
-  justify-content: center;
+  @include center-element;
   gap: 1rem;
-}
 
-.btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .btn-primary {
+    @include button-styles($primary-color, $white, color.scale($primary-color, $lightness: -10%));
+  }
 
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.btn-favorite {
-  padding: 0.5rem;
-  border: none;
-  background-color: transparent;
-  color: red;
-  font-size: 1.5rem;
-  cursor: pointer;
+  .btn-favorite {
+    @include favorite-button($danger-color);
+  }
 }
 </style>

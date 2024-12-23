@@ -1,7 +1,9 @@
+<!-- OpinionView.vue -->
 <template>
   <div class="opinion-view">
-    <h1>Opinión sobre: {{ gameName }}</h1>
-    <opinion-form :gameName="gameName" />
+    <section class="opinion-section">
+      <OpinionForm gameName="Juego Ejemplo" />
+    </section>
   </div>
 </template>
 
@@ -13,23 +15,28 @@ export default {
   components: {
     OpinionForm,
   },
-  data() {
-    return {
-      gameName: '',
-    }
-  },
-  created() {
-    // Captura el parámetro dinámico desde la ruta
-    this.gameName = this.$route.params.name || 'Sin nombre'
-    console.log('Parámetro recibido:', this.gameName)
-  },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@/styles/variables' as *;
+
+/* ✅ Contenedor de la vista */
 .opinion-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: $light-gray;
+}
+
+/* ✅ Sección donde se monta el formulario */
+.opinion-section {
+  width: 100%;
   max-width: 800px;
-  margin: 2rem auto;
-  text-align: center;
+  border-radius: 10px;
+  background-color: $white;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba($black, 0.1);
 }
 </style>
